@@ -5,11 +5,26 @@ Public Repository containing all of my scripts as well as necessary information 
 The repository is structured into several different folders: here is the general layout:
 
 Data:
+
   Input Data:
+  
     Input data sets:
+    
   Observational Data:
+  
     Output data:
+    
   Java:
+  
     Java code:
+    
   Scripts:
+  
     R scripts used to perform various experiments on the datasets
+
+## Run and Download Instructions
+
+## Permissions and Sources
+
+### Contributors
+    
