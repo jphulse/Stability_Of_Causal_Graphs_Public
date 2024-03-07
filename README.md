@@ -27,4 +27,5 @@ Data:
 ## Permissions and Sources
 
 ### Contributors
+Author: Jeremy Hulse (jphulse) Email: jphulse@ncsu.edu
     
