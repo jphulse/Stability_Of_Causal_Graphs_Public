@@ -1,3 +1,4 @@
+# plots the graph generated from the prop-1 dataset
 ## Read a file from the prop dataset and combine them as needed
 combined <- read.csv("./data/prop/prop-1.csv")
 library(dplyr)
