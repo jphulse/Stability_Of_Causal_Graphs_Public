@@ -1,3 +1,4 @@
+# Performs a super-sample experiment on the ant dataset (NOT USED IN PAPER_
 library(pcalg)
 library(dplyr)
 data("ant-1.3")
