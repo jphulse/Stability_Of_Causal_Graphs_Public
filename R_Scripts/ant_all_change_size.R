@@ -1,3 +1,4 @@
+## Early experiment testing a combination of all ANT datasets with various sizes in order to evaluate the impact of supersampling (NOT USED FOR PAPER)
 ## Load in the datasets into one combined instance across versions of ant
 files <- list.files("./data/ant", pattern=".csv", full.names=T)
 combined <- do.call("rbind", lapply(files, read.csv))
