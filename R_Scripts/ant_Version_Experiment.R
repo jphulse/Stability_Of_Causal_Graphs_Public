@@ -1,3 +1,4 @@
+# Performs the version experiment for the Ant SE dataset (please see paper for experimental alg)
 library(dplyr)
 library(pcalg)
 data("ant-1.3")
