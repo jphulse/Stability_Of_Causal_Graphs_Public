@@ -1,3 +1,4 @@
+# Plots the graphs of the combined ant dataset with shifting alphas and reversed columns
 ## Load in the datasets into one combined instance across versions of ant
 files <- list.files("./data/ant", pattern=".csv", full.names=T)
 combined <- do.call("rbind", lapply(files, read.csv))
