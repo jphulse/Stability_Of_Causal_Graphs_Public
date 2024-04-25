@@ -1,3 +1,5 @@
+# Reads and generates a singular ANT graph using all versions of ant
+
 ## Load in the datasets into one combined instance across versions of ant
 files <- list.files("./data/ant", pattern=".csv", full.names=T)
 combined <- do.call("rbind", lapply(files, read.csv))
