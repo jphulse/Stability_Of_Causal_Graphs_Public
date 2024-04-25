@@ -1,3 +1,4 @@
+# Propogates and plots the graph generated from the Prop datasets
 files <- list.files("./data/prop", pattern=".csv", full.names=T)
 combined <- do.call("rbind", lapply(files, read.csv))
 
