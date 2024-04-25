@@ -1,3 +1,5 @@
+# Performs the version experiment for the Camel SE dataset (please see paper for experimental alg)
+
 library(dplyr)
 library(pcalg)
 data("camel-1.0")
