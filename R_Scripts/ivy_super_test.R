@@ -1,3 +1,4 @@
+# Performs a super-sample experiment on the Ivy dataset (NOT USED IN PAPER)
 library(pcalg)
 library(dplyr)
 data("ivy-1.1")
