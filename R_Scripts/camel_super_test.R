@@ -1,3 +1,4 @@
+# Performs a super-sample experiment on the Camel dataset (NOT USED IN PAPER_
 library(pcalg)
 library(dplyr)
 data("camel-1.0")
