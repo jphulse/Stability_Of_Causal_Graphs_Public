@@ -1,3 +1,4 @@
+# Plots graphs generated from all ant datasets with column order reversed to see if it makes a difference in graph outputs
 ## Load the first dataset and reverse the columns
 data("ant-1.3")
 data <- data[, c(24, 23, 22, 21, 20, 19, 18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1)]
