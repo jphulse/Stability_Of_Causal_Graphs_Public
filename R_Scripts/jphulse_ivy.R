@@ -1,3 +1,4 @@
+# Propogates and plots the graph generated from the ivy datasets
 files <- list.files("./data/ivy", pattern=".csv", full.names=T)
 combined <- do.call("rbind", lapply(files, read.csv))
 
