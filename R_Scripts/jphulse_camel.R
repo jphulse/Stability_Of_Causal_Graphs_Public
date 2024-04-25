@@ -1,3 +1,4 @@
+# Propogates and plots the graph generated from the camel datasets
 ## Read the files from the camel dataset and combine them as needed
 files <- list.files("./data/camel", pattern=".csv", full.names=T)
 combined <- do.call("rbind", lapply(files, read.csv))
