@@ -1,3 +1,4 @@
+# Plots graphs made from ant 1.3 of various significance levels in CI tests
 library(dplyr)
 library(pcalg)
 data("ant-1.3")
