@@ -1,3 +1,4 @@
+# plots random subsamples of ant 1.3
 data("ant-1.3")
 ## Make a matrix of 113 (approx 90% of ant 1.3) 5 times for testing
 m.1 <- data.matrix(sample_n(data, 113))
