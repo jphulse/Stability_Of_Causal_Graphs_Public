@@ -1,3 +1,5 @@
+# Tests the combined ant dataset, with a shifting alpha by plotting the graphs
+
 ## Load in the datasets into one combined instance across versions of ant
 files <- list.files("./data/ant", pattern=".csv", full.names=T)
 combined <- do.call("rbind", lapply(files, read.csv))
@@ -32,5 +34,3 @@ if(require(igraph)) {
   plot(a.10, main="alpha .10")
   plot(a.50, main="alpha .50")
 }
-
-print(5 %/%2 )
