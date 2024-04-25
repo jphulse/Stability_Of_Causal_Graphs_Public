@@ -6,27 +6,22 @@ The repository is structured into several different folders: here is the general
 
 Data:
 
-  Input Data:
+  Input Data: The datasets utilized in the experiments in labeled .csv files that can be parsed by R.
+
   
-    Input data sets:
+  
     
-  Observational Data:
-  
-    Output data:
+  Observational Data: Output data, largely composed of Excel workbooks with Jaccard values which was the comparison metric utilized in experiments.
     
   Java:
-  
-    Java code:
+  Contains the file Jaccard.java which is used to parse through labeled experiment output files from R. These experiment files each contain a representation of one graph object, as such they are all read and compared by this Java file which generates a very large singular output file.
+ 
     
   Scripts:
   
-    R scripts used to perform various experiments on the datasets
-
-## Run and Download Instructions
-
-## Permissions and Sources
+  R scripts which were used to perform various experiments on the datasets.  It is expected that the user has included the pcalg package in the RStudio environment, and has a compatible version of RStudio installed.
 
 ### Contributors
 * Author: Jeremy Hulse (jphulse) Email: jphulse@ncsu.edu
-* Contributor: Dr. Timothy Menzies
+* Mentor: Dr. Timothy Menzies
     
