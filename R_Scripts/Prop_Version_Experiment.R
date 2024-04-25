@@ -1,3 +1,4 @@
+# Performs the version experiment for the Prop SE dataset (please see paper for experimental alg)
 library(dplyr)
 library(pcalg)
 data("prop-1")
