@@ -1,3 +1,4 @@
+# Experiment testing on Ant with a shifting alpha, the number of iterations can be changed to make this test as small or large as one wants by adjusting the bounds of the outer for loop
 library(pcalg)
 library(dplyr)
 data("ant-1.3")
