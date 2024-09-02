@@ -27,4 +27,10 @@ Data:
 ### Contributors
 * Author: Jeremy Hulse (jphulse) Email: jphulse@ncsu.edu
 * Mentor: Dr. Timothy Menzies
+
+
+### Citations for pcalg package
+Markus Kalisch, Martin Mächler, Diego Colombo, Marloes H. Maathuis, Peter Bühlmann (2012). “Causal Inference Using Graphical Models with the R Package pcalg.” Journal of Statistical Software, 47(11), 1–26. doi:10.18637/jss.v047.i11.
+
+Alain Hauser, Peter Bühlmann (2012). “Characterization and greedy learning of interventional Markov equivalence classes of directed acyclic graphs.” Journal of Machine Learning Research, 13, 2409–2464. https://jmlr.org/papers/v13/hauser12a.html.
     
