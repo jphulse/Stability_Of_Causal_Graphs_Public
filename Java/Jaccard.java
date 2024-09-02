@@ -11,7 +11,7 @@ public class Jaccard {
     public static boolean detail;
 	
 	/**
-	 * 
+	 * main method, expects command line args of the form $java Jaccard <experiment_name> <numTrials> <detail> with detail being optional
 	 */
 	public static void main(String[] args) {
 		Scanner argScan = new Scanner(args[1]);
@@ -21,12 +21,15 @@ public class Jaccard {
 		try {
 			readFile(args[0], args[0], numTrials);
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		}
 		
 	}
-	
+
+	/**
+	*	Reads the input files and creates output of Jaccard values WARNING, makes lots of output, so expect a large output file for larger tests.
+	*/
 	public static void readFile(String experiment, String out, int numTrials) throws FileNotFoundException {
         PrintWriter write;
         if(!detail) {
@@ -41,23 +44,21 @@ public class Jaccard {
 		while(varScan.hasNextLine()) {
 			String s = varScan.nextLine();
 			Scanner stringScan = new Scanner(s);
-			//stringScan.next();
+			
 			while(stringScan.hasNext()) {
 				varNames.put(idx, stringScan.next());
 				idx++;
 			}
 			stringScan.close();
 		}
-        //System.out.println(varNames.toString());
-        //System.exit(0);
+        
 		
 		int[] edgeCount = new int[numTrials];
 		
 		for(int i = 0; i < numTrials; i++) {
 			idx = 1;
 			Scanner fileScan = new Scanner(new FileInputStream(experiment + "_" + i + ".txt" ));
-            // Skip the header from the updated line creation
-            //fileScan.nextLine();
+            
 			
 			HashMap<String, List<String>> m = new HashMap<String, List<String>>();
 			trials.add(m);
@@ -74,26 +75,11 @@ public class Jaccard {
                 if(nameLine.charAt(0) == 'c') {
                     nameLine = nameLine.substring(2);
                 }
-                //System.out.println(nameLine);
+                
                 Scanner nameScan = new Scanner(nameLine);
                 
                 
-                /**
-				while(!fileScan.hasNextInt()) {
-                    String check = "";
-                    if(fileScan.hasNext()) {
-                        check = fileScan.next();
-                    } else {
-                        idx++; break;
-                    }
-                    //System.out.println(check);
-					if(check.contains("integer")) {
-						idx++;
-						break;
-					} else {
-                        fileScan.nextChar();
-                    }
-				} */
+                
 				List<String> l = m.get(name);
                 while(nameScan.hasNextInt()) {
                     int min = nameScan.nextInt();
@@ -114,27 +100,14 @@ public class Jaccard {
                         
                     }
                 }
-                /**
-				while(fileScan.hasNextInt()) {
-					l.add(varNames.get(fileScan.nextInt()));
-                    System.out.println(l.get(edgeCount[i]));
-					edgeCount[i]++;
-                    if(! fileScan.hasNextInt()) {
-                        fileScan.nextChar();
-                    }
-				} */
+                
 				idx++;
-                /**
-                for(int k = 0; k < l.size(); k++) {
-                    System.out.print(l.get(k) + ", ");
-                    
-                }
-                System.out.println(); */
+                
                 
 			}
 			
 		}
-        //System.out.println("Got here");
+       
 		idx = 1;
 		for(int i = 0; i < numTrials; i++) {
             if(detail) {
@@ -148,7 +121,7 @@ public class Jaccard {
 				for(int k = 1; k <= varNames.size(); k++) {
                     
 					String name = varNames.get(k);
-                    //System.out.println(name);
+                    
 					List<String> l1 = m1.get(name);
 					List<String> l2 = m2.get(name);
 					if(l1 == null || l2 == null || l1.isEmpty() || l2.isEmpty()) {
