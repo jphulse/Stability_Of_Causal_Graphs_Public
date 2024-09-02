@@ -1,6 +1,9 @@
 # Stability_Of_Causal_Graphs_Public
 Public Repository containing all of my scripts as well as necessary information to run and verify my independent undergraduate research from Spring 2024
 
+## Download instructions
+Install and download a compatable recent version of R studio to work with the pcalg package, see [pcalg manual](https://cran.r-project.org/web//packages/pcalg/pcalg.pdf) for method documentation about the package.  Here is the link to the [package source](https://cran.r-project.org/web/packages/pcalg/index.html), I ran my experiments directly through this as an imported project in RStudio, however the results should be reproducable regardless of where you place the scripts, although file paths may need to be modified accordingly.  The scripts can be ran directly through RStudio, and the Java file (if you choose to use that) can be ran in the form java Jaccard.java which has documentation for how to run it in the comments on the main method.
+
 ## Structure
 The repository is structured into several different folders: here is the general layout:
 
