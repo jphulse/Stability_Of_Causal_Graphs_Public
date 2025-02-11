@@ -1,14 +1,6 @@
-# This code was created for my semester research paper for CSC 591 at NCSU in Fall 2024
-# The goal is to try to improve stability seen in causal discovery by using subsamples of synthetic
-# and real data in order to predict the most stable algorithm to use on a dataset.  This was primarily inspired 
-# by a paper published in 2019 C. Glymour, K. Zhang, and P. Spirtes, ‘‘Review of causal discovery meth-
-# ods based on graphical models,’’ Frontiers in genetics, vol. 10, p. 524, 2019.
-# where they discuss assumptions inherit in the models, and briefly discuss instability.
-# That prompted me to look into dataset attributes and see if there was a way to use the existing innovations
-# in causal discovery to make stability-maximizing predictions without needing to "reinvent the wheel" for every new dataset
-#
-#
+
 # @author Jeremy P. Hulse CSC Undergraduate and Accelerated Master's Student at North Carolina State University
+# contact jphulse@ncsu.edu
 
 # General imports for files or system operations
 import os 
@@ -130,15 +122,15 @@ def calculateJaccardIndex(g1, g2, dim):
     return bothCount / eitherCount if eitherCount > 0 else 0
 
 # performs the pc algorithm and returns the appropriately formatted matrix                
-def performPC(grid, dim, alph=.05):
+def performPC(grid, dim, alph=.01):
     print(grid)
     print(grid.shape[0], grid.shape[1] )
-    pc_graph = PC.pc(grid, show_progress=False)
+    pc_graph = PC.pc(grid, show_progress=False, alpha=alph)
     return turnEdgesToMatrix(pc_graph.find_adj(), dim)
 
 # performs the FCI alg and returns the formatted matrix
-def performFCI(grid, dim):
-    _, fci_list = FCI.fci(grid, show_progress=False)
+def performFCI(grid, dim, alph =.01):
+    _, fci_list = FCI.fci(grid, show_progress=False, alpha=alph)
     return turnEdgeListToMatrix(fci_list, dim)
 
 # performs the GES alg and returns the formatted matrix
@@ -165,22 +157,30 @@ def makeGraphs(grid):
     lin_matrix = performLiNGAM(grid, dim)
     return pc_matrix, fci_matrix, ges_matrix, lin_matrix
 
+# Makes graphs specifically for the alpha experiment with the two relevant functions pc and fci and converts them to adj matrix
+def makeAlphaGraphs(grid, alph):
+    dim = grid.shape[1]
+    pc_matrix = performPC(grid, dim, alph)
+    fci_matrix = performFCI(grid, dim, alph)
+    return pc_matrix, fci_matrix
+
 def compareSets(s1, s2, dim) :
     results = []
     for g1, g2 in zip(s1, s2):
         results.append(calculateJaccardIndex(g1, g2, dim))
     return tuple(results)
 
+# arbitrary, mainly a formality for additional data added by users for testing or refutal, will remove columns with no variance
 def fix_invariance(df : DataFrame):
 
     return df.loc[:, df.var() != 0]
 
-
+# fixes normal data, currently only fixes invariance, could be modified to remove non-numeric cols in the future, for now that must be done manually
 def fix_normal_data(df :DataFrame):
     df = fix_invariance(df)
     return df
 
-# Runs a subsample
+# Runs a subsample experiment comparing n graphs of percent p subsamples
 def run_sub(file, n=20, p=.9, big=False):
    df = pd.read_csv(file)
    df = fix_normal_data(df)
@@ -254,7 +254,26 @@ def output_comparison_grid_to_csv(comparison_grid):
     df = pd.DataFrame(flattened_data, columns=['Row', 'Column', 'pc', 'fci', 'ges', 'lin'])
     df.to_csv('results\\inter_project.csv', index=False)
 
+# Performs the alpha experiment on the given file with the set alphaPoints, can take a subsample if the file is big
+# 
+def run_alf(file, alphPoints=[.11, .21, .31, .41, .51, .61, .71, .81, .91] ,big=False):
+    df = pd.read_csv(file)
+    df = fix_normal_data(df)
+    if big:
+       df = df.sample(100)
+    grid = df.to_numpy()
+    primes = makeAlphaGraphs(grid, .01)
+    count = 0
+    totals = (0, 0)
+    dim = grid.shape[1]
+    for i in alphPoints:
+        graphs = makeAlphaGraphs(grid, i)
+        totals = tuple(a + b for a, b in zip(totals, compareSets(primes, graphs, dim)))
+        count += 1
+    append_to_results(file, tuple(x / count for x in totals), "alpha")
 
+    
+    
 # Runs the version experiment, should print to a file named after the earliest version
 # as a csv with the average Jaccard value for pc, fci, ges, lin
 def run_version(files):
@@ -312,21 +331,34 @@ xerces_files = get_files(xerces_path, real_pattern, found=[])
 
 for file in config_files:
     run_sub(file, big=True)
+    run_alf(file, big=True)
 for file in process_files:
     run_sub(file, big=True)
+    run_alf(file, big=True)
 for file in ant_files:
     run_sub(file)
+    run_alf(file)
 for file in ivy_files:
     run_sub(file)
+    run_alf(file)
+
 for file in camel_files:
     run_sub(file)
+    run_alf(file)
+
 for file in synapse_files:
     run_sub(file)
+    run_alf(file)
+
 for file in xerces_files:
     run_sub(file)
+    run_alf(file)
 
-run_inter(ant_files[-1], camel_files[-1], ivy_files[-1], synapse_files[-1], xerces_files[-1])
+
+#run_inter(ant_files[-1], camel_files[-1], ivy_files[-1], synapse_files[-1], xerces_files[-1])
 for files in [ant_files, camel_files, ivy_files, synapse_files, xerces_files]:
     run_version(files)
+    for file in files:
+        run_alf(file)
 
 
