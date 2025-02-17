@@ -69,9 +69,11 @@ class SOME:
       "Normalize `n` to the range 0..1 for min..max"
       return (n-i.lo)/(i.hi - i.lo + 1E-30)
 
-    def bar(i, some, fmt="%8.3f", word="%10s", width=50):
+    def bar(i, some, fmt="%8.3f", word="%10s", width=50, inverse=False, maxRank=-1):
       "Pretty print `some.has`."
       has = some.has() 
+      if inverse and maxRank > -1:
+        some.rank = (some.rank - maxRank) * -1
       out = [' '] * width
       cap = lambda x: 1 if x > 1 else (0 if x<0 else x)
       #pos = lambda x: int(width * cap(i.norm(x)))
@@ -161,14 +163,17 @@ def bars(somes, width=40,epsilon=0.01,fmt="%5.2f"):
     last=some.rank
     print(all.bar(some.has(), width=width, word="%20s", fmt=fmt))
  
-def report(somes,epsilon=0.01,fmt="%5.2f"):
+def report(somes,epsilon=0.01,fmt="%5.2f", inverse=False, maxRank=-1):
   all = SOME(somes)
   last = None
+  stats = sk(somes, epsilon)
+  if inverse:
+    stats.reverse()
   #print(SOME(inits=[x for some in somes for x in some._has]).div()*the.stats.cohen)
-  for some in sk(somes,epsilon):
+  for some in stats:
     if some.rank != last: print("#")
     last=some.rank
-    print(all.bar(some,width=40,word="%20s", fmt=fmt))
+    print(all.bar(some,width=40,word="%20s", fmt=fmt, inverse=inverse, maxRank=maxRank))
 
 # ---------------------------------------------------------------------------------------
 
@@ -210,7 +215,7 @@ files = ['ConfigAlphAgg.csv', 'configSubAgg.csv', 'defectalphagg.csv', 'DefectSu
 if __name__ == "__main__": 
   frames = get_data(files)
   somes = make_somes(frames)
-  report(somes)
+  report(somes, inverse=True, maxRank=15)
   print()
   calc_std(frames)
   
