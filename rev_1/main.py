@@ -6,8 +6,9 @@
 import os 
 import re 
 import csv
+import sys
+import random
 # pip install portalocker
-import portalocker
 from typing import List
 
 # Data formattingimports
@@ -24,7 +25,7 @@ from numpy import ndarray
 # and the 30 years of work that have gone into improving these methods
 from causallearn.search.ConstraintBased import PC
 from causallearn.search.ConstraintBased import FCI
-from causallearn.search.ScoreBased import GES
+from causallearn.search.ScoreBased import GES 
 from causallearn.search.FCMBased import lingam
 # Not currently used, but provides utilities to draw the graphs and other fun stuff to play with, so I left it in
 from causallearn.utils.GraphUtils import GraphUtils
@@ -315,9 +316,29 @@ def append_to_results(file, my_tuple, extension=None):
        
 
 
-
-
+def run_cross_alg_exp(files, algs, N=100):
+    results = []
+    for i in range(0, N):
+        file = files[random.randint(0, len(files) - 1)]
+        df = pd.read_csv(file)
+        df = fix_normal_data(df)
+        grid = df.to_numpy()
+        dim = grid.shape[1]
+        alg_indexes = random.sample(range(0, len(algs)), 2)
+        alg1 = algs[alg_indexes[0]]
+        alg2 = algs[alg_indexes[1]]
+        g1 = alg1(grid, dim)
+        g2 = alg2(grid, dim)
+        results.append(calculateJaccardIndex(g1, g2, dim))
+    return results
     
+
+
+def print_jaccards_to_file(results, output):
+    
+    with open(output, "a") as file:
+        for item in results:
+            file.write(item + "\n")
 
     
 
@@ -329,36 +350,44 @@ camel_files = get_files(camel_path, real_pattern, found=[])
 synapse_files = get_files(synapse_path, real_pattern, found=[])
 xerces_files = get_files(xerces_path, real_pattern, found=[])
 
-for file in config_files:
-    run_sub(file, big=True)
-    run_alf(file, big=True)
-for file in process_files:
-    run_sub(file, big=True)
-    run_alf(file, big=True)
-for file in ant_files:
-    run_sub(file)
-    run_alf(file)
-for file in ivy_files:
-    run_sub(file)
-    run_alf(file)
-
-for file in camel_files:
-    run_sub(file)
-    run_alf(file)
-
-for file in synapse_files:
-    run_sub(file)
-    run_alf(file)
-
-for file in xerces_files:
-    run_sub(file)
-    run_alf(file)
-
-
-#run_inter(ant_files[-1], camel_files[-1], ivy_files[-1], synapse_files[-1], xerces_files[-1])
-for files in [ant_files, camel_files, ivy_files, synapse_files, xerces_files]:
-    run_version(files)
-    for file in files:
+if len(sys.argv) < 2:
+    for file in config_files:
+        run_sub(file, big=True)
+        run_alf(file, big=True)
+    for file in process_files:
+        run_sub(file, big=True)
+        run_alf(file, big=True)
+    for file in ant_files:
+        run_sub(file)
         run_alf(file)
+    for file in ivy_files:
+        run_sub(file)
+        run_alf(file)
+
+    for file in camel_files:
+        run_sub(file)
+        run_alf(file)
+
+    for file in synapse_files:
+        run_sub(file)
+        run_alf(file)
+
+    for file in xerces_files:
+        run_sub(file)
+        run_alf(file)
+
+
+    #run_inter(ant_files[-1], camel_files[-1], ivy_files[-1], synapse_files[-1], xerces_files[-1])
+    for files in [ant_files, camel_files, ivy_files, synapse_files, xerces_files]:
+        run_version(files)
+        for file in files:
+            run_alf(file)
+
+if len(sys.argv >=2) and sys.argv[1] == "-D":
+    all_files = config_files + process_files + ant_files + ivy_files + camel_files + synapse_files + xerces_files
+    all_algs = [performPC, performFCI, performGES, performLiNGAM]
+    results = run_cross_alg_exp(all_files, all_algs)
+    print_jaccards_to_file(results, "results/cross_alg.csv")
+
 
 
