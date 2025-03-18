@@ -322,6 +322,8 @@ def run_cross_alg_exp(files, algs, N=100):
         file = files[random.randint(0, len(files) - 1)]
         df = pd.read_csv(file)
         df = fix_normal_data(df)
+        if len(df) > 1000:
+            df = df.sample(1000)
         grid = df.to_numpy()
         dim = grid.shape[1]
         alg_indexes = random.sample(range(0, len(algs)), 2)
@@ -330,6 +332,8 @@ def run_cross_alg_exp(files, algs, N=100):
         g1 = alg1(grid, dim)
         g2 = alg2(grid, dim)
         results.append(calculateJaccardIndex(g1, g2, dim))
+        print(i, flush=True)
+    results.sort()
     return results
     
 
@@ -338,7 +342,7 @@ def print_jaccards_to_file(results, output):
     
     with open(output, "a") as file:
         for item in results:
-            file.write(item + "\n")
+            file.write(str(item) + "\n")
 
     
 
@@ -383,7 +387,8 @@ if len(sys.argv) < 2:
         for file in files:
             run_alf(file)
 
-if len(sys.argv >=2) and sys.argv[1] == "-D":
+if len(sys.argv) >=2 and sys.argv[1] == "-D":
+    print("Alt functionality, cross-alg", flush=True)
     all_files = config_files + process_files + ant_files + ivy_files + camel_files + synapse_files + xerces_files
     all_algs = [performPC, performFCI, performGES, performLiNGAM]
     results = run_cross_alg_exp(all_files, all_algs)
