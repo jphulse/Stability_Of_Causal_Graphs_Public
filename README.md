@@ -24,6 +24,8 @@ Data:
   
   R scripts which were used to perform various experiments on the datasets.  It is expected that the user has included the pcalg package in the RStudio environment, and has a compatible version of RStudio installed.
 
+## Revision Scripts and code can be found on the r1 branch in the rev_1 folder.
+* Please see the python and R scripts in that folder and run those for revision reproduction.  The rev_1 folder can operate apart from the rest of the repo.
 ### Contributors
 * Author: Jeremy Hulse (jphulse) Email: jphulse@ncsu.edu
 * Mentor: Dr. Timothy Menzies
@@ -33,4 +35,5 @@ Data:
 Markus Kalisch, Martin Mächler, Diego Colombo, Marloes H. Maathuis, Peter Bühlmann (2012). “Causal Inference Using Graphical Models with the R Package pcalg.” Journal of Statistical Software, 47(11), 1–26. doi:10.18637/jss.v047.i11.
 
 Alain Hauser, Peter Bühlmann (2012). “Characterization and greedy learning of interventional Markov equivalence classes of directed acyclic graphs.” Journal of Machine Learning Research, 13, 2409–2464. https://jmlr.org/papers/v13/hauser12a.html.
-    
+
+
